@@ -49,13 +49,13 @@ jobs:
           name: build
           path: build
       - name: Deploy to staging 
-        if: github.event_name == 'push' && github.ref == 'refs/head/develop'
+        if: github.event_name == 'push' && github.ref == 'refs/heads/develop'
         run: npx surge --project ./build --domain delicious-drum.surge.sh
       - name: Deploy to production 
-        if: github.event_name == 'push' && github.ref == 'refs/head/master'
+        if: github.event_name == 'push' && github.ref == 'refs/heads/master'
         run: npx surge --project ./build --domain massive-recess.surge.sh
       - name: Upload coverage report 
-        if: github.event_name == 'push' && github.ref == 'refs/head/master'
+        if: github.event_name == 'push' && github.ref == 'refs/heads/master'
         run: npx codecov
         env:
           CODECOV_TOKEN: ${{ secrets.CODECOV_TOKEN }}
