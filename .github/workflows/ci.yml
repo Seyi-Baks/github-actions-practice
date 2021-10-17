@@ -23,9 +23,9 @@ jobs:
       - name: Build Project 
         if: github.event_name == 'push'
         run: yarn build
-      - name: Deploy to staging 
+      - name: Deploy to server 
         if: github.event_name == 'push'
-        run: npx surge --project ./build --domain
+        run: npx surge --project ./build --domain delicious-drum.surge.sh
         env: 
           SURGE_LOGIN: ${{ secrets.SURGE_LOGIN }}
           SURGE_TOKEN: ${{ secrets.SURGE_TOKEN }}
