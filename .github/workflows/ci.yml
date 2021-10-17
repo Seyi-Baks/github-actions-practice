@@ -8,6 +8,9 @@ on:
 jobs:
   build:
     runs-on: ubuntu-latest
+    env: 
+      SURGE_LOGIN: ${{ secrets.SURGE_LOGIN }}
+      SURGE_TOKEN: ${{ secrets.SURGE_TOKEN }}
     steps:
       - uses: actions/checkout@v2
       - name: Get yarn cache directory path
@@ -45,9 +48,10 @@ jobs:
         with:
           name: build
           path: build
-      - name: Deploy to server 
-        if: github.event_name == 'push'
+      - name: Deploy to staging 
+        if: github.event_name == 'push' && github.ref == 'refs/head/develop'
         run: npx surge --project ./build --domain delicious-drum.surge.sh
-        env: 
-          SURGE_LOGIN: ${{ secrets.SURGE_LOGIN }}
-          SURGE_TOKEN: ${{ secrets.SURGE_TOKEN }}
+      - name: Deploy to production 
+        if: github.event_name == 'push' && github.ref == 'refs/head/master'
+        run: npx surge --project ./build --domain massive-recess.surge.sh
+
